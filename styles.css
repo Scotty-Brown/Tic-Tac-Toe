@@ -1,10 +1,85 @@
+
+
 body {
     font-family: 'Roboto', sans-serif;
-    background-size: cover;
+    background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
     background-attachment: fixed;
     background-image: url("./assets/hogwarts-2036645_1280.webp");
     margin-top: 0;
     margin-bottom: 0;
+    background-color: rgb(238, 212, 180);
+    display: flex;
+    justify-content: space-around;
+}
+
+section {
+    border: 10px black solid;
+}
+
+
+.game-board {
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    grid-template-rows: 150px 150px 150px;
+    grid-template-columns: 150px 150px 150px;
+    height: 500px;
+    width: 70%;
+    padding: 10px;
+    background-color: lemonchiffon;
+    justify-content: center;
+    align-items: center;
+    opacity: 85%;
+}
+
+.middle-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 65%;
+    height: 740px;
+}
+
+.box {
+    border: solid 5px rgb(37, 37, 166);
+    padding: 62px;
+    text-align: center;
+    align-content: center;
+    color: red;   
+}
+
+.side-div {
+    width: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    padding: 36px;
+    font-size: 35px;
+    background-color: #ffe559;
+    opacity: 85%;
+    border-radius: 80%;
+}
+
+.count {
+    height: 74%;
+    opacity: 85%;
+    width: 85%;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.left {
+    background: #d32559;
+}
+
+.right {
+    background: #23adba;
 }
