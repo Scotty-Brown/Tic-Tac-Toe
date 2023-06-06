@@ -1,0 +1,10 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-image: url("./assets/hogwarts-2036645_1280.webp");
+    margin-top: 0;
+    margin-bottom: 0;
+}
