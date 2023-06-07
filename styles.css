@@ -1,0 +1,174 @@
+/* 
+colors -
+rgba(207, 149, 43, 0.848)
+background-color: rgb(238, 212, 180);
+rgba(207, 149, 43, 0.848)
+*/
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-image: url("./assets/hogwarts-2036645_1280.webp");
+    margin-top: 0;
+    margin-bottom: 0;
+    background-color: rgb(238, 212, 180);
+    display: flex;
+    justify-content: space-around;
+}
+
+section {
+    /* border: solid 12px rgba(207, 149, 43, 0.848); */
+    border-image: linear-gradient(#23adba, #d32559) 30;
+    border-width: 12px;
+    border-style: solid;
+}
+
+
+.game-board {
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    grid-template-rows: 150px 150px 150px;
+    grid-template-columns: 150px 150px 150px;
+    height: 500px;
+    width: 70%;
+    padding: 10px;
+    background-color: lemonchiffon;
+    border: solid 30px rgba(207, 149, 43, 0.848);
+    justify-content: center;
+    align-items: center;
+    opacity: 95%;
+    border-radius: 100px;
+    margin-bottom: 10px;
+    box-shadow: inset 0px 0px 20px 17px rgba(207, 149, 43, 0.848)
+}
+
+.middle-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 65%;
+    height: 740px;
+}
+
+.box {
+    border: solid 13px rgb(67 44 0 / 85%);
+    padding: 62px;
+    text-align: center;
+    align-content: center;
+    color: red;
+    box-shadow: inset 1px 1px 20px 14px rgba(228, 166, 36, 0.848);
+    border-radius: 15px;
+}
+
+.side-div {
+    width: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgb(238, 212, 180);
+}
+
+h1 {
+    padding: 36px;
+    font-size: 35px;
+    background-color: #ffe559;
+    opacity: 85%;
+    border-radius: 80%;
+    box-shadow: 0px 0px 20px 17px rgba(207, 149, 43, 0.848);
+    border-color: rgb(67 44 0 / 85%);
+    font-family: cursive;
+    
+}
+
+.count {
+    height: 74%;
+    opacity: 60%;
+    width: 85%;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0px 0px 20px 17px rgba(207, 149, 43, 0.848);
+    border-color: rgb(67 44 0 / 85%);
+}
+.leftt {
+    background: linear-gradient(#e66465, #23adba);
+
+}
+
+.rightt {
+    background: linear-gradient(#e66465, #23adba);
+
+}
+
+.right {
+    background: rgb(238, 212, 180);
+    box-shadow: inset 0px 0px 20px 20px #d32559;
+}
+
+.left {
+    background: rgb(238, 212, 180);
+    box-shadow: inset 0px 0px 20px 20px #23adba;
+}
+
+.one {
+    border-left: none;
+    border-top: none;
+}
+
+.two {
+    border-top: none;
+}
+
+.three {
+    border-top: none;
+    border-right: none;
+}
+
+.four {
+    border-left: none;
+}
+
+.five {
+    
+}
+
+.six {
+    border-right: none;
+}
+
+.seven {
+    border-left: none;
+    border-bottom: none;
+}
+
+.eight {
+    border-bottom: none;
+}
+
+.nine {
+    border-bottom: none;
+    border-right: none;
+} 
+
+/* 
+play around css
+
+border-image: linear-gradient(#f6b73c, #4d9f0c) 30;
+border-width: 4px;
+border-style: solid;
+
+
+box-shadow: 0px 0px 20px 17px rgba(207, 149, 43, 0.848);
+    border: gradient 5px rgb(189 119 32);
+    border-style: solid;
+    border-color: seashell;
+    
+    */
+    /* border-image: linear-gradient(#ffe559, rgb(238, 212, 180)) 30; */
+    /* border-width: 17px; */
