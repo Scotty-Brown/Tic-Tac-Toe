@@ -1,4 +1,9 @@
-
+/* 
+colors -
+rgba(207, 149, 43, 0.848)
+background-color: rgb(238, 212, 180);
+rgba(207, 149, 43, 0.848)
+*/
 
 body {
     font-family: 'Roboto', sans-serif;
@@ -15,7 +20,10 @@ body {
 }
 
 section {
-    border: solid 12px rgba(207, 149, 43, 0.848);
+    /* border: solid 12px rgba(207, 149, 43, 0.848); */
+    border-image: linear-gradient(#23adba, #d32559) 30;
+    border-width: 12px;
+    border-style: solid;
 }
 
 
@@ -69,6 +77,10 @@ h1 {
     background-color: #ffe559;
     opacity: 85%;
     border-radius: 80%;
+    box-shadow: 0px 0px 20px 17px rgba(207, 149, 43, 0.848);
+    border-style: solid;
+    border-color: seashell;
+    font-family: cursive;
 }
 
 .count {
@@ -88,3 +100,21 @@ h1 {
 .right {
     background: #23adba;
 }
+
+
+/* 
+play around css
+
+border-image: linear-gradient(#f6b73c, #4d9f0c) 30;
+border-width: 4px;
+border-style: solid;
+
+
+box-shadow: 0px 0px 20px 17px rgba(207, 149, 43, 0.848);
+    border: gradient 5px rgb(189 119 32);
+    border-style: solid;
+    border-color: seashell;
+    
+    */
+    /* border-image: linear-gradient(#ffe559, rgb(238, 212, 180)) 30; */
+    /* border-width: 17px; */
