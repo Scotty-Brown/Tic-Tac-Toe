@@ -62,7 +62,7 @@ section {
     align-content: center;
     color: red;
     box-shadow: inset 1px 1px 20px 14px rgba(228, 166, 36, 0.848);
-    border-radius: 30px;
+    border-radius: 15px;
 }
 
 .side-div {
@@ -97,12 +97,12 @@ h1 {
     border-color: rgb(67 44 0 / 85%);
 }
 .leftt {
-    background: #23adba;
+    background: linear-gradient(#e66465, #9198e5);
 
 }
 
 .rightt {
-    background: #d32559;
+    background: linear-gradient(#e66465, #9198e5);
 
 }
 
