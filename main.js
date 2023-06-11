@@ -1,5 +1,6 @@
 // query selectors
-var nineBoxes = document.querySelectorAll('box')
+var nineBoxes = document.querySelectorAll('.box')
+
 
 // global variables
 
@@ -22,6 +23,11 @@ var gameBoard = {
 // have player choose their own icon
 
 // event listeners
+nineBoxes.forEach(function(box) {
+    box.addEventListener('click', function(event) {
+        placeToken(event);
+    });
+});
 
 // data model
 
@@ -29,7 +35,8 @@ function createPlayers(id, token) {
     return {
         id: id,
         token: token,
-        wins: 0
+        wins: 0,
+        isTurn: false
     }
 }
 
@@ -39,10 +46,25 @@ function addPlayersToGameboard() {
     return gameBoard
 }
 
+function determineTurn(gameBoard) {
+    if (gameBoard.turns % 2 === 0) {
+        gameBoard.players[0].isTurn = true
+    } else {
+        gameBoard.players[1].isTurn = true
+    }
+    return gameBoard
+}
 
 function increaseWins(player) {
     player.wins ++
 }
+
+
+//-------------- DOM FUNCTIONS -----------------//
+function placeToken(event) {
+    event.target.innerHTML += '<span role="img" aria-label="red-icon" title="red-icon">🧞‍♀️</span>'
+}
+
 
 // function switchPlayers() {
 
