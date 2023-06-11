@@ -3,11 +3,11 @@ var nineBoxes = document.querySelectorAll('box')
 
 // global variables
 
-var currentPlayer;
+var currentPlayers;
 var gameBoard = {
-    players: [],
+    // players: [],
     turn: 0,
-    playerIcons: ['🧞‍♂️', '🧞‍♀️'],
+    // playerIcons: ['🧞‍♂️', '🧞‍♀️'],
     winningCombos: [
         [1,2,3],
         [4,5,6],
@@ -25,33 +25,30 @@ var gameBoard = {
 
 // data model
 
-function createPlayer(icon) {
+function createPlayers(id, token) {
     return {
-        id: Date.now(),
-        token: icon,
-        wins: 0,
-    } 
+        id: id,
+        token: token,
+        wins: 0
+    }
 }
 
-function assignPlayerIcon() {
-    var playerIcons = [
-        '<span role="img" aria-label="BlueIcon" title="BlueIcon">🧞‍♂️</span>',
-        '<span role="img" aria-label="RedIcon" title="RedIcon">🧞‍♀️</span>'
-    ]
-    for (var i = 0; i < playerIcons.length; i++) {
-        gameBoard.players.push(createPlayer(playerIcons[i]))
-    } 
-  }
-  
-
-function increaseWins(player) {
-    player.wins ++
-    return player
+function addPlayersToGameboard() {
+    gameBoard.players = []
+    gameBoard.players.push(createPlayers('alpha', '🧞‍♂️'), createPlayers('omega', '🧞‍♀️'))
+    return gameBoard
 }
 
-function switchPlayers() {
+   
 
-}
+// function increaseWins(player) {
+//     player.wins ++
+//     return player
+// }
+
+// function switchPlayers() {
+
+// }
 
 
 // DOM
