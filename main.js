@@ -39,12 +39,10 @@ function addPlayersToGameboard() {
     return gameBoard
 }
 
-   
 
-// function increaseWins(player) {
-//     player.wins ++
-//     return player
-// }
+function increaseWins(player) {
+    player.wins ++
+}
 
 // function switchPlayers() {
 
