@@ -20,12 +20,14 @@ var gameBoard = {
         [3,5,7],
     ]
 }
-// have player choose their own icon
+// have choose their own icon
 
 // event listeners
+document.addEventListener('DOMContentLoaded', setGame)
+
 nineBoxes.forEach(function(box) {
-    box.addEventListener('click', function(event) {
-        placeToken(event);
+    box.addEventListener('click', function() {
+        placeToken(gameBoard);
     });
 });
 
@@ -46,13 +48,42 @@ function addPlayersToGameboard() {
     return gameBoard
 }
 
-function determineTurn(gameBoard) {
-    if (gameBoard.turns % 2 === 0) {
+function setGame() {
+    gameBoard = addPlayersToGameboard()
+    gameBoard.players[0].isTurn = true
+    gameBoard.players[1].isTurn = false
+}
+
+function determineFirstTurn(gameBoard) {
+    if (gameBoard.turn % 2 === 0) {
         gameBoard.players[0].isTurn = true
+        gameBoard.players[1].isTurn = false
+        return 'alpha'
     } else {
+        gameBoard.players[0].isTurn = false
         gameBoard.players[1].isTurn = true
+        return 'omega'
     }
-    return gameBoard
+}
+
+// function determineNonFirstTurn(gameBoard) {
+//     if (gameBoard.turns % 2 === 0) {
+//         gameBoard.players[0].isTurn = true
+//         return 'alpha'
+//     } else {
+//         gameBoard.players[1].isTurn = true
+//         return 'omega'
+//     }
+// }
+
+function swapTurns() {
+    for (var i = 0; i < gameBoard.players.length; i++) {
+        if (gameBoard.players[i].isTurn === true) {
+            gameBoard.players[i].isTurn = false
+        } else if (gameBoard.players[i].isTurn === false) {
+            gameBoard.players[i].isTurn = true
+        }
+    }
 }
 
 function increaseWins(player) {
@@ -61,8 +92,12 @@ function increaseWins(player) {
 
 
 //-------------- DOM FUNCTIONS -----------------//
-function placeToken(event) {
-    event.target.innerHTML += '<span role="img" aria-label="red-icon" title="red-icon">🧞‍♀️</span>'
+function placeToken(gameBoard) {
+    for (var i = 0; i< gameBoard.players.length; i++) {
+        if (gameBoard.players[i].isTurn) {
+            event.target.innerHTML += `<span role="img" aria-label="red-icon" title="red-icon">${gameBoard.players[i].token}</span>`
+        }
+    } swapTurns()
 }
 
 
