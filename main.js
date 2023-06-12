@@ -1,13 +1,13 @@
 // query selectors
 var nineBoxes = document.querySelectorAll('.box')
-
+var playerBanner = document.querySelector('.player-banner')
 
 // global variables
 
 var currentPlayers;
 var gameBoard = {
     gameBoardPositions: ['', '', '', '', '', '', '', '', ''],
-    turn: 2,
+    turn: 3,
     // playerIcons: ['🧞‍♂️', '🧞‍♀️'],
     winningCombos: [
         ['1','2','3'],
@@ -25,11 +25,13 @@ var gameBoard = {
 // event listeners
 document.addEventListener('DOMContentLoaded', function() {
     setGame()
+    updatePlayerBanner(gameBoard)
 })
 
 nineBoxes.forEach(function(box) {
     box.addEventListener('click', function(event) {
     placeToken(event);
+    updatePlayerBanner(gameBoard)
     });
 });
 
@@ -58,7 +60,7 @@ function setGame() {
         gameBoard.players[1].isTurn = false
     } else if (firstPlayer === 'omega') {
         gameBoard.players[0].isTurn = false
-        gameBoard.players[1].isTurn = false
+        gameBoard.players[1].isTurn = true
     }
 }
 
@@ -143,6 +145,13 @@ function increaseWins(player) {
     swapTurns();
   }
   
+  function updatePlayerBanner(gameBoard) {
+    for (var i = 0; i < gameBoard.players.length; i++) {
+        if (gameBoard.players[i].isTurn === true) {
+            playerBanner.innerText = `${gameBoard.players[i].token} - Your Turn!` 
+        }
+    }
+  }
 
 
 
