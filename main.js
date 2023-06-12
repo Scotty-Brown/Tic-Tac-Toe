@@ -122,6 +122,7 @@ function checkForWins(gameBoard) {
 
     if (token1 !== '' && token1 === token2 && token2 === token3) {
       var winner = token1;
+      increaseWinCount(winner)
       return winner;
     }
   }
@@ -129,8 +130,12 @@ function checkForWins(gameBoard) {
 }
 
 
-function increaseWins(playerIcon) {
-    player.wins ++
+function increaseWinCount(playerIcon) {
+    for (var i = 0; i < gameBoard.players.length; i++) {
+        if (gameBoard.players[i].token === playerIcon) {
+            gameBoard.players[i].wins ++
+        }
+    }
 }
 
 
@@ -176,7 +181,6 @@ function increaseWins(playerIcon) {
   function displayWinnerBanner(winner) {
     if (winner !== null) {
       playerBanner.innerText = `Congratulations ${winner} - You Win!`;
-      
     } else {
       updatePlayerBanner(gameBoard)
     }
