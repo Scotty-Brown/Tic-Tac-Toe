@@ -10,14 +10,14 @@ var gameBoard = {
     turn: 3,
     // playerIcons: ['🧞‍♂️', '🧞‍♀️'],
     winningCombos: [
-        ['1','2','3'],
-        ['4','5','6'],
-        ['7','8','9'],
-        ['1','4','7'],
-        ['2','5','8'],
-        ['3','6','9'],
-        ['1','5','9'],
-        ['3','5','7'],
+        [0,1,2],
+        [3,4,5],
+        [6,7,8],
+        [0,3,6],
+        [1,4,7],
+        [2,5,8],
+        [0,4,8],
+        [2,4,6],
     ]
 }
 // have choose their own icon
@@ -31,7 +31,6 @@ document.addEventListener('DOMContentLoaded', function() {
 nineBoxes.forEach(function(box) {
     box.addEventListener('click', function(event) {
     placeToken(event);
-    updatePlayerBanner(gameBoard)
     });
 });
 
@@ -90,16 +89,6 @@ function determineTurn(gameBoard) {
  }
 }
 
-// function determineNonFirstTurn(gameBoard) {
-//     if (gameBoard.turns % 2 === 0) {
-//         gameBoard.players[0].isTurn = true
-//         return 'alpha'
-//     } else {
-//         gameBoard.players[1].isTurn = true
-//         return 'omega'
-//     }
-// }
-
 function swapTurns() {
     for (var i = 0; i < gameBoard.players.length; i++) {
         if (gameBoard.players[i].isTurn === true) {
@@ -110,7 +99,37 @@ function swapTurns() {
     }
 }
 
-function increaseWins(player) {
+// function checkForWins(gameboard) {
+//     var alphaToken = gameBoard.players[0].token;
+//     var omegaToken = gameBoard.players[1].token;
+
+// }
+
+function checkForWins(gameBoard) {
+  var winningCombos = gameBoard.winningCombos;
+  var gameBoardPositions = gameBoard.gameBoardPositions;
+
+  for (var i = 0; i < winningCombos.length; i++) {
+    var combo = winningCombos[i];
+    
+    var position1 = combo[0];
+    var position2 = combo[1];
+    var position3 = combo[2];
+    
+    var token1 = gameBoardPositions[position1];
+    var token2 = gameBoardPositions[position2];
+    var token3 = gameBoardPositions[position3];
+
+    if (token1 !== '' && token1 === token2 && token2 === token3) {
+      var winner = token1;
+      return winner;
+    }
+  }
+  return null;
+}
+
+
+function increaseWins(playerIcon) {
     player.wins ++
 }
 
@@ -143,6 +162,7 @@ function increaseWins(player) {
     }
     
     swapTurns();
+    displayWinnerBanner(checkForWins(gameBoard))
   }
   
   function updatePlayerBanner(gameBoard) {
@@ -153,6 +173,15 @@ function increaseWins(player) {
     }
   }
 
+  function displayWinnerBanner(winner) {
+    if (winner !== null) {
+      playerBanner.innerText = `Congratulations ${winner} - You Win!`;
+      
+    } else {
+      updatePlayerBanner(gameBoard)
+    }
+  }
+  
 
 
 // event.target.innerHTML += `<span role="img" aria-label="red-icon" title="red-icon">${gameBoard.players[i].token}</span>`
