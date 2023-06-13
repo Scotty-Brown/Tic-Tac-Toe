@@ -1,10 +1,10 @@
-// query selectors
+// -------------- Query Selectors --------------//
 var nineBoxes = document.querySelectorAll('.box')
 var playerBanner = document.querySelector('.player-banner')
 var leftWinCount = document.querySelector('.left-count-display')
 var rightWinCount = document.querySelector('.right-count-display')
 
-// global variables
+// -------------- Global Variables --------------//
 
 var currentWinner = ''
 var gameBoard = {
@@ -22,7 +22,8 @@ var gameBoard = {
   ]
 }
 
-// event listeners
+// -------------- Event Listeners --------------//
+
 document.addEventListener('DOMContentLoaded', function () {
   setInitialGame()
   updateBannerDisplay()
@@ -47,7 +48,7 @@ nineBoxes.forEach(function (box) {
   })
 })
 
-// data model
+// -------------- Functions --------------//
 
 function createPlayers(id, token) {
   return {
@@ -102,18 +103,15 @@ function swapTurns() {
   }
 }
 
-
 function checkForWins() {
   var winningCombos = gameBoard.winningCombos
   var gameBoardPositions = gameBoard.gameBoardPositions
 
   for (var i = 0; i < winningCombos.length; i++) {
     var combo = winningCombos[i]
-
     var position1 = combo[0]
     var position2 = combo[1]
     var position3 = combo[2]
-
     var token1 = gameBoardPositions[position1]
     var token2 = gameBoardPositions[position2]
     var token3 = gameBoardPositions[position3]
@@ -127,13 +125,14 @@ function checkForWins() {
 }
 
 function checkForDraws() {
-  var gbPositionsClone = ['']
+  var gbPositionsClone = []
+
   for (var i = 0; i < gameBoard.gameBoardPositions.length; i++) {
     if (gameBoard.gameBoardPositions[i] !== '') {
       gbPositionsClone.push(gameBoard.gameBoardPositions[i].token)
     }
   }
-  if (gbPositionsClone.length === 10 && checkForWins() === null) {
+  if (gbPositionsClone.length === 9 && checkForWins() === null) {
     currentWinner = 'draw'
     return true
   }
@@ -156,13 +155,9 @@ function clearGameBoardPositions() {
   gameBoard.round++
 }
 
-
-//-------------- DOM FUNCTIONS -----------------//
-
 function placeToken(event) {
   var alphaToken = gameBoard.players[0].token
   var omegaToken = gameBoard.players[1].token
-
   var clickedIndex = Array.from(nineBoxes).indexOf(event.target)
 
   if (gameBoard.gameBoardPositions.every(position => position === '')) {
@@ -182,7 +177,6 @@ function placeToken(event) {
       event.target.innerHTML += omegaToken
     }
   }
-
   swapTurns()
   updateBannerDisplay()
 }
@@ -198,7 +192,6 @@ function updateBannerDisplay() {
     }
   }
 }
-
 
 function displayPlayerWinCount() {
   leftWinCount.innerText = `${gameBoard.players[0].wins}`
