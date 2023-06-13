@@ -9,7 +9,7 @@ var rightWinCount = document.querySelector('.right')
 var currentPlayers;
 var gameBoard = {
     gameBoardPositions: ['', '', '', '', '', '', '', '', ''],
-    turn: 3,
+    round: 5,
     // playerIcons: ['🧞‍♂️', '🧞‍♀️'],
     winningCombos: [
         [0,1,2],
@@ -27,7 +27,7 @@ var gameBoard = {
 // event listeners
 document.addEventListener('DOMContentLoaded', function() {
     setGame()
-    updatePlayerBanner(gameBoard)
+    updateBannerDisplay(gameBoard)
     displayPlayerWinCount(gameBoard)
 })
 
@@ -74,7 +74,7 @@ function setGame() {
 //     }
 
 function determineFirstTurn(gameBoard) {
-    if (gameBoard.turn % 2 === 0) {
+    if (gameBoard.round % 2 === 0) {
         gameBoard.players[0].isTurn = true
         gameBoard.players[1].isTurn = false
         return 'alpha'
@@ -103,11 +103,6 @@ function swapTurns() {
     }
 }
 
-// function checkForWins(gameboard) {
-//     var alphaToken = gameBoard.players[0].token;
-//     var omegaToken = gameBoard.players[1].token;
-
-// }
 
 function checkForWins(gameBoard) {
   var winningCombos = gameBoard.winningCombos
@@ -126,8 +121,6 @@ function checkForWins(gameBoard) {
 
     if (token1 !== '' && token1 === token2 && token2 === token3) {
       var winner = token1
-    //   increaseWinCount(winner)
-    //   displayPlayerWinCount(gameBoard)
       return winner
     } 
   }
@@ -140,11 +133,11 @@ function checkForDraws(gameBoard) {
         if (gameBoard.gameBoardPositions[i] !== '') {
             gbPositionsClone.push(gameBoard.gameBoardPositions[i].token)
         }
-    }
+    } console.log(gbPositionsClone)
     if (gbPositionsClone.length > 8) {
         return true
     }
-
+    return false
 }
 
 
@@ -187,20 +180,21 @@ function increaseWinCount(winner) {
     }
     
     swapTurns();
-    updatePlayerBanner(gameBoard)
+    updateBannerDisplay(gameBoard)
   }
   
-  function updatePlayerBanner(gameBoard) {
+  function updateBannerDisplay(gameBoard) {
     for (var i = 0; i < gameBoard.players.length; i++) {
-        if (gameBoard.players[i].isTurn === true && checkForWins(gameBoard) === null) {
-            playerBanner.innerText = `${gameBoard.players[i].token} - Your Turn!` 
+        if (checkForDraws(gameBoard)) {
+            playerBanner.innerText = `Oh No, It's a Draw!`
         } else if (gameBoard.players[i].isTurn === false && checkForWins(gameBoard) !== null ) {
             playerBanner.innerText = `Congrats ${gameBoard.players[i].token} - You're a Winner!`
-        } else if (checkForDraws(gameBoard)) {
-            playerBanner.innerText = `Oh No, It's a Draw!`
+        } else if (gameBoard.players[i].isTurn === true && checkForWins(gameBoard) === null) {
+            playerBanner.innerText = `${gameBoard.players[i].token} - Your Turn!` 
         }
     }
   }
+
 
 function displayPlayerWinCount (gameBoard) {
     leftWinCount.innerText = `Wins ${gameBoard.players[0].wins}`
