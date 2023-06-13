@@ -101,12 +101,12 @@ img {
     box-shadow: 0px 0px 20px 17px rgba(207, 149, 43, 0.848);
     border-color: rgb(67 44 0 / 85%);
 }
-.leftt {
+.rightt {
     background: linear-gradient(#e66465, #23adba);
 
 }
 
-.rightt {
+.leftt {
     background: linear-gradient(#e66465, #23adba);
 
 }

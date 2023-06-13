@@ -1,6 +1,8 @@
 // query selectors
 var nineBoxes = document.querySelectorAll('.box')
 var playerBanner = document.querySelector('.player-banner')
+var leftWinCount = document.querySelector('.left')
+var rightWinCount = document.querySelector('.right')
 
 // global variables
 
@@ -26,11 +28,13 @@ var gameBoard = {
 document.addEventListener('DOMContentLoaded', function() {
     setGame()
     updatePlayerBanner(gameBoard)
+    displayPlayerWinCount(gameBoard)
 })
 
 nineBoxes.forEach(function(box) {
     box.addEventListener('click', function(event) {
     placeToken(event);
+    handleWin(checkForWins(gameBoard))
     });
 });
 
@@ -122,7 +126,8 @@ function checkForWins(gameBoard) {
 
     if (token1 !== '' && token1 === token2 && token2 === token3) {
       var winner = token1
-      increaseWinCount(winner)
+    //   increaseWinCount(winner)
+    //   displayPlayerWinCount(gameBoard)
       return winner
     } 
   }
@@ -143,12 +148,14 @@ function checkForDraws(gameBoard) {
 }
 
 
-function increaseWinCount(playerIcon) {
+function increaseWinCount(winner) {
+    // if (checkForWins(gameBoard) !== null) {
     for (var i = 0; i < gameBoard.players.length; i++) {
-        if (gameBoard.players[i].token === playerIcon) {
-            gameBoard.players[i].wins ++
+        if (gameBoard.players[i].token === winner) {
+            gameBoard.players[i].wins++
         }
-    }
+    // }
+}
 }
 
 
@@ -195,7 +202,19 @@ function increaseWinCount(playerIcon) {
     }
   }
 
+function displayPlayerWinCount (gameBoard) {
+    leftWinCount.innerText = `Wins ${gameBoard.players[0].wins}`
+    rightWinCount.innerText = `Wins ${gameBoard.players[1].wins}`
+}
 
+function handleWin(func) {
+    for (var i = 0; i < gameBoard.players.length; i++) {
+        if (func === gameBoard.players[i].token) {
+            increaseWinCount(gameBoard.players[i].token)
+            displayPlayerWinCount(gameBoard)
+        }
+    }
+}
 
 // DOM
 
