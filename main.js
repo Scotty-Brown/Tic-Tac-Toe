@@ -6,11 +6,10 @@ var rightWinCount = document.querySelector('.right')
 
 // global variables
 
-var currentPlayers;
+var currentPlayers
 var gameBoard = {
     gameBoardPositions: ['', '', '', '', '', '', '', '', ''],
-    turn: 3,
-    // playerIcons: ['🧞‍♂️', '🧞‍♀️'],
+    round: 1,
     winningCombos: [
         [0,1,2],
         [3,4,5],
@@ -22,21 +21,31 @@ var gameBoard = {
         [2,4,6],
     ]
 }
-// have choose their own icon
 
 // event listeners
 document.addEventListener('DOMContentLoaded', function() {
-    setGame()
-    updatePlayerBanner(gameBoard)
+    setInitialGame()
+    updateBannerDisplay(gameBoard)
     displayPlayerWinCount(gameBoard)
 })
 
 nineBoxes.forEach(function(box) {
     box.addEventListener('click', function(event) {
-    placeToken(event);
-    handleWin(checkForWins(gameBoard))
-    });
-});
+    placeToken(event)
+    if (checkForWins(gameBoard) === null) {
+        if (checkForDraws(gameBoard)) {
+            setTimeout(() => {
+                resetBoard(nineBoxes)
+            }, 5000)
+        }
+    } else if (checkForWins(gameBoard) !== null) {  
+        handleWin(checkForWins(gameBoard))
+        setTimeout(() => {
+            resetBoard(nineBoxes)
+        }, 5000)
+    }
+})
+})
 
 // data model
 
@@ -55,7 +64,7 @@ function addPlayersToGameboard() {
     return gameBoard
 }
 
-function setGame() {
+function setInitialGame() {
     gameBoard = addPlayersToGameboard()
     var firstPlayer = determineFirstTurn(gameBoard)
     if (firstPlayer === 'alpha') {
@@ -67,14 +76,9 @@ function setGame() {
     }
 }
 
-// function updatePlayerPositions(gameBoard) {
-//     nineBoxes.forEach(function(box) {
-//         gameBoard.positions = event.target
-//         });
-//     }
 
 function determineFirstTurn(gameBoard) {
-    if (gameBoard.turn % 2 === 0) {
+    if (gameBoard.round % 2 === 0) {
         gameBoard.players[0].isTurn = true
         gameBoard.players[1].isTurn = false
         return 'alpha'
@@ -103,11 +107,6 @@ function swapTurns() {
     }
 }
 
-// function checkForWins(gameboard) {
-//     var alphaToken = gameBoard.players[0].token;
-//     var omegaToken = gameBoard.players[1].token;
-
-// }
 
 function checkForWins(gameBoard) {
   var winningCombos = gameBoard.winningCombos
@@ -126,8 +125,6 @@ function checkForWins(gameBoard) {
 
     if (token1 !== '' && token1 === token2 && token2 === token3) {
       var winner = token1
-    //   increaseWinCount(winner)
-    //   displayPlayerWinCount(gameBoard)
       return winner
     } 
   }
@@ -140,22 +137,27 @@ function checkForDraws(gameBoard) {
         if (gameBoard.gameBoardPositions[i] !== '') {
             gbPositionsClone.push(gameBoard.gameBoardPositions[i].token)
         }
-    }
+    } console.log(gbPositionsClone)
     if (gbPositionsClone.length > 8) {
         return true
     }
-
+    return false
 }
 
 
 function increaseWinCount(winner) {
-    // if (checkForWins(gameBoard) !== null) {
     for (var i = 0; i < gameBoard.players.length; i++) {
         if (gameBoard.players[i].token === winner) {
             gameBoard.players[i].wins++
         }
-    // }
 }
+}
+
+function clearGameBoardPositions(gameBoard) {
+    for ( var i = 0; i < gameBoard.gameBoardPositions.length; i++) {
+        gameBoard.gameBoardPositions[i] = ''
+    }
+    gameBoard.round++
 }
 
 
@@ -164,7 +166,6 @@ function increaseWinCount(winner) {
   function placeToken(event) {
     var alphaToken = gameBoard.players[0].token
     var omegaToken = gameBoard.players[1].token
-    console.log(event.target)
   
     var clickedIndex = Array.from(nineBoxes).indexOf(event.target)
     
@@ -186,51 +187,44 @@ function increaseWinCount(winner) {
       }
     }
     
-    swapTurns();
-    updatePlayerBanner(gameBoard)
+    swapTurns()
+    updateBannerDisplay(gameBoard)
   }
   
-  function updatePlayerBanner(gameBoard) {
+  function updateBannerDisplay(gameBoard) {
     for (var i = 0; i < gameBoard.players.length; i++) {
-        if (gameBoard.players[i].isTurn === true && checkForWins(gameBoard) === null) {
-            playerBanner.innerText = `${gameBoard.players[i].token} - Your Turn!` 
+        if (checkForDraws(gameBoard)) {
+            playerBanner.innerText = `Oh No, It's a Draw!`
         } else if (gameBoard.players[i].isTurn === false && checkForWins(gameBoard) !== null ) {
             playerBanner.innerText = `Congrats ${gameBoard.players[i].token} - You're a Winner!`
-        } else if (checkForDraws(gameBoard)) {
-            playerBanner.innerText = `Oh No, It's a Draw!`
+        } else if (gameBoard.players[i].isTurn === true && checkForWins(gameBoard) === null) {
+            playerBanner.innerText = `${gameBoard.players[i].token} - Your Turn!` 
         }
     }
   }
+
 
 function displayPlayerWinCount (gameBoard) {
     leftWinCount.innerText = `Wins ${gameBoard.players[0].wins}`
     rightWinCount.innerText = `Wins ${gameBoard.players[1].wins}`
 }
 
-function handleWin(func) {
+function handleWin(token) {
+    
     for (var i = 0; i < gameBoard.players.length; i++) {
-        if (func === gameBoard.players[i].token) {
+        if (token === gameBoard.players[i].token) {
             increaseWinCount(gameBoard.players[i].token)
             displayPlayerWinCount(gameBoard)
         }
     }
 }
 
-// DOM
+function resetBoard(nineBoxes) {
+    for ( var i = 0; i < nineBoxes.length; i++) {
+        nineBoxes[i].innerText = ''
+    }
+    clearGameBoardPositions(gameBoard)
+    updateBannerDisplay(gameBoard)
+}
 
-
-// for whos turn function -
-    // logic can detect odd or even number and that coincides with each players turn and then when its re initiated it adds one to turn and redoes process it could also take which turn it is by using it as an argument in the function and then just calling the same function to restart game
-
-//pseudocode
-    // i have two players and a gameboard
-    // when the page loads it should be a random players turn
-    // each click should switch players
-        // a function that creates object that stores each players info
-        // a function that increaseWins - increase the count of current players wins
-        // a function that keeps track of the data for the game board
-        // a function that keeps track of which plays turn it currently is
-        // a function that checks the game board data for win conditions
-        // a function that detects when a game is a draw
-        // a function that resets the game boards data to begin a new game
         
