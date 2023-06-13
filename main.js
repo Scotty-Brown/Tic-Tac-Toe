@@ -6,10 +6,9 @@ var rightWinCount = document.querySelector('.right')
 
 // global variables
 
-var currentPlayers
 var gameBoard = {
     gameBoardPositions: ['', '', '', '', '', '', '', '', ''],
-    round: 1,
+    round: 2,
     winningCombos: [
         [0,1,2],
         [3,4,5],
@@ -131,14 +130,16 @@ function checkForWins(gameBoard) {
   return null
 }
 
+
+// need to fix if a win happens on the last gameboard click//
 function checkForDraws(gameBoard) {
-    var gbPositionsClone = []
+    var gbPositionsClone = ['']
     for (var i = 0; i < gameBoard.gameBoardPositions.length; i ++) {
         if (gameBoard.gameBoardPositions[i] !== '') {
             gbPositionsClone.push(gameBoard.gameBoardPositions[i].token)
         }
-    } console.log(gbPositionsClone)
-    if (gbPositionsClone.length > 8) {
+    }
+    if (gbPositionsClone.length === 10 && checkForWins(gameBoard) === null) {
         return true
     }
     return false
