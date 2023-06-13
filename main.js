@@ -1,8 +1,8 @@
 // query selectors
 var nineBoxes = document.querySelectorAll('.box')
 var playerBanner = document.querySelector('.player-banner')
-var leftWinCount = document.querySelector('.left')
-var rightWinCount = document.querySelector('.right')
+var leftWinCount = document.querySelector('.left-count-display')
+var rightWinCount = document.querySelector('.right-count-display')
 
 // global variables
 
