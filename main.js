@@ -206,8 +206,8 @@ function clearGameBoardPositions(gameBoard) {
 
 
 function displayPlayerWinCount (gameBoard) {
-    leftWinCount.innerText = `Wins ${gameBoard.players[0].wins}`
-    rightWinCount.innerText = `Wins ${gameBoard.players[1].wins}`
+    leftWinCount.innerText = `${gameBoard.players[0].wins}`
+    rightWinCount.innerText = `${gameBoard.players[1].wins}`
 }
 
 function handleWin(token) {
