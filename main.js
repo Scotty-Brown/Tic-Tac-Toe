@@ -25,20 +25,20 @@ var gameBoard = {
 // event listeners
 document.addEventListener('DOMContentLoaded', function () {
   setInitialGame()
-  updateBannerDisplay(gameBoard)
-  displayPlayerWinCount(gameBoard)
+  updateBannerDisplay()
+  displayPlayerWinCount()
 })
 
 nineBoxes.forEach(function (box) {
   box.addEventListener('click', function (event) {
     if (currentWinner === '') {
       validateGameBoardPosition(event)
-      if (checkForWins(gameBoard) === null && checkForDraws(gameBoard)) {
+      if (checkForWins() === null && checkForDraws()) {
         setTimeout(() => {
           resetBoard(nineBoxes)
         }, 5000)
-      } else if (checkForWins(gameBoard) !== null) {
-        handleWin(checkForWins(gameBoard))
+      } else if (checkForWins() !== null) {
+        handleWin(checkForWins())
         setTimeout(() => {
           resetBoard(nineBoxes)
         }, 5000)
@@ -60,13 +60,12 @@ function createPlayers(id, token) {
 
 function addPlayersToGameboard() {
   gameBoard.players = [createPlayers('alpha', '🧞‍♂️'), createPlayers('omega', '🧞‍♀️')]
-  // gameBoard.players.push(createPlayers('alpha', '🧞‍♂️'), createPlayers('omega', '🧞‍♀️'))
   return gameBoard
 }
 
 function setInitialGame() {
   gameBoard = addPlayersToGameboard()
-  var firstPlayer = determineFirstTurn(gameBoard)
+  var firstPlayer = determineFirstTurn()
   if (firstPlayer === 'alpha') {
     gameBoard.players[0].isTurn = true
     gameBoard.players[1].isTurn = false
@@ -77,7 +76,7 @@ function setInitialGame() {
 }
 
 
-function determineFirstTurn(gameBoard) {
+function determineFirstTurn() {
   if (gameBoard.round % 2 === 0) {
     gameBoard.players[0].isTurn = true
     gameBoard.players[1].isTurn = false
@@ -89,7 +88,7 @@ function determineFirstTurn(gameBoard) {
   }
 }
 
-function determineTurn(gameBoard) {
+function determineTurn() {
   for (var i = 0; i < gameBoard.players.length; i++) {
     if (gameBoard.players[i].isTurn === true) {
       return gameBoard.players[i].id
@@ -100,17 +99,11 @@ function determineTurn(gameBoard) {
 function swapTurns() {
   for (var i = 0; i < gameBoard.players.length; i++) {
     gameBoard.players[i].isTurn = !gameBoard.players[i].isTurn
-
-    // if (gameBoard.players[i].isTurn === true) {
-    //     gameBoard.players[i].isTurn = false
-    // } else if (gameBoard.players[i].isTurn === false) {
-    //     gameBoard.players[i].isTurn = true
-    // }
   }
 }
 
 
-function checkForWins(gameBoard) {
+function checkForWins() {
   var winningCombos = gameBoard.winningCombos
   var gameBoardPositions = gameBoard.gameBoardPositions
 
@@ -133,16 +126,14 @@ function checkForWins(gameBoard) {
   return null
 }
 
-
-// need to fix if a win happens on the last gameboard click//
-function checkForDraws(gameBoard) {
+function checkForDraws() {
   var gbPositionsClone = ['']
   for (var i = 0; i < gameBoard.gameBoardPositions.length; i++) {
     if (gameBoard.gameBoardPositions[i] !== '') {
       gbPositionsClone.push(gameBoard.gameBoardPositions[i].token)
     }
   }
-  if (gbPositionsClone.length === 10 && checkForWins(gameBoard) === null) {
+  if (gbPositionsClone.length === 10 && checkForWins() === null) {
     currentWinner = 'draw'
     return true
   }
@@ -158,7 +149,7 @@ function increaseWinCount(winner) {
   }
 }
 
-function clearGameBoardPositions(gameBoard) {
+function clearGameBoardPositions() {
   for (var i = 0; i < gameBoard.gameBoardPositions.length; i++) {
     gameBoard.gameBoardPositions[i] = ''
   }
@@ -175,41 +166,41 @@ function placeToken(event) {
   var clickedIndex = Array.from(nineBoxes).indexOf(event.target)
 
   if (gameBoard.gameBoardPositions.every(position => position === '')) {
-    if (determineFirstTurn(gameBoard) === 'alpha') {
+    if (determineFirstTurn() === 'alpha') {
       gameBoard.gameBoardPositions[clickedIndex] = alphaToken
       event.target.innerHTML += alphaToken
-    } else if (determineFirstTurn(gameBoard) === 'omega') {
+    } else if (determineFirstTurn() === 'omega') {
       gameBoard.gameBoardPositions[clickedIndex] = omegaToken
       event.target.innerHTML += omegaToken
     }
   } else {
-    if (determineTurn(gameBoard) === 'alpha') {
+    if (determineTurn() === 'alpha') {
       gameBoard.gameBoardPositions[clickedIndex] = alphaToken
       event.target.innerHTML += alphaToken
-    } else if (determineTurn(gameBoard) === 'omega') {
+    } else if (determineTurn() === 'omega') {
       gameBoard.gameBoardPositions[clickedIndex] = omegaToken
       event.target.innerHTML += omegaToken
     }
   }
 
   swapTurns()
-  updateBannerDisplay(gameBoard)
+  updateBannerDisplay()
 }
 
-function updateBannerDisplay(gameBoard) {
+function updateBannerDisplay() {
   for (var i = 0; i < gameBoard.players.length; i++) {
-    if (checkForDraws(gameBoard)) {
+    if (checkForDraws()) {
       playerBanner.innerText = `Oh No, It's a Draw!`
-    } else if (gameBoard.players[i].isTurn === false && checkForWins(gameBoard) !== null) {
+    } else if (gameBoard.players[i].isTurn === false && checkForWins() !== null) {
       playerBanner.innerText = `Congrats ${gameBoard.players[i].token} - You're a Winner!`
-    } else if (gameBoard.players[i].isTurn === true && checkForWins(gameBoard) === null) {
+    } else if (gameBoard.players[i].isTurn === true && checkForWins() === null) {
       playerBanner.innerText = `${gameBoard.players[i].token} - Your Turn!`
     }
   }
 }
 
 
-function displayPlayerWinCount(gameBoard) {
+function displayPlayerWinCount() {
   leftWinCount.innerText = `${gameBoard.players[0].wins}`
   rightWinCount.innerText = `${gameBoard.players[1].wins}`
 }
@@ -219,7 +210,7 @@ function handleWin(token) {
   for (var i = 0; i < gameBoard.players.length; i++) {
     if (token === gameBoard.players[i].token) {
       increaseWinCount(gameBoard.players[i].token)
-      displayPlayerWinCount(gameBoard)
+      displayPlayerWinCount()
     }
   }
 }
@@ -229,8 +220,8 @@ function resetBoard(nineBoxes) {
     nineBoxes[i].innerText = ''
   }
   currentWinner = ''
-  clearGameBoardPositions(gameBoard)
-  updateBannerDisplay(gameBoard)
+  clearGameBoardPositions()
+  updateBannerDisplay()
 }
 
 function validateGameBoardPosition(event) {
