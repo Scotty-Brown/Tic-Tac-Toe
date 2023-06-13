@@ -106,27 +106,40 @@ function swapTurns() {
 // }
 
 function checkForWins(gameBoard) {
-  var winningCombos = gameBoard.winningCombos;
-  var gameBoardPositions = gameBoard.gameBoardPositions;
+  var winningCombos = gameBoard.winningCombos
+  var gameBoardPositions = gameBoard.gameBoardPositions
 
   for (var i = 0; i < winningCombos.length; i++) {
-    var combo = winningCombos[i];
+    var combo = winningCombos[i]
     
-    var position1 = combo[0];
-    var position2 = combo[1];
-    var position3 = combo[2];
+    var position1 = combo[0]
+    var position2 = combo[1]
+    var position3 = combo[2]
     
-    var token1 = gameBoardPositions[position1];
-    var token2 = gameBoardPositions[position2];
-    var token3 = gameBoardPositions[position3];
+    var token1 = gameBoardPositions[position1]
+    var token2 = gameBoardPositions[position2]
+    var token3 = gameBoardPositions[position3]
 
     if (token1 !== '' && token1 === token2 && token2 === token3) {
-      var winner = token1;
+      var winner = token1
       increaseWinCount(winner)
-      return winner;
-    }
+      return winner
+    } 
   }
-  return null;
+  return null
+}
+
+function checkForDraws(gameBoard) {
+    var gbPositionsClone = []
+    for (var i = 0; i < gameBoard.gameBoardPositions.length; i ++) {
+        if (gameBoard.gameBoardPositions[i] !== '') {
+            gbPositionsClone.push(gameBoard.gameBoardPositions[i].token)
+        }
+    }
+    if (gbPositionsClone.length > 8) {
+        return true
+    }
+
 }
 
 
@@ -142,59 +155,46 @@ function increaseWinCount(playerIcon) {
 //-------------- DOM FUNCTIONS -----------------//
   
   function placeToken(event) {
-    var alphaToken = gameBoard.players[0].token;
-    var omegaToken = gameBoard.players[1].token;
-    console.log(event.target);
+    var alphaToken = gameBoard.players[0].token
+    var omegaToken = gameBoard.players[1].token
+    console.log(event.target)
   
-    var clickedIndex = Array.from(nineBoxes).indexOf(event.target);
+    var clickedIndex = Array.from(nineBoxes).indexOf(event.target)
     
     if (gameBoard.gameBoardPositions.every(position => position === '')) {
       if (determineFirstTurn(gameBoard) === 'alpha') {
-        gameBoard.gameBoardPositions[clickedIndex] = alphaToken;
-        event.target.innerHTML += alphaToken;
+        gameBoard.gameBoardPositions[clickedIndex] = alphaToken
+        event.target.innerHTML += alphaToken
       } else if (determineFirstTurn(gameBoard) === 'omega') {
-        gameBoard.gameBoardPositions[clickedIndex] = omegaToken;
-        event.target.innerHTML += omegaToken;
+        gameBoard.gameBoardPositions[clickedIndex] = omegaToken
+        event.target.innerHTML += omegaToken
       }
     } else {
       if (determineTurn(gameBoard) === 'alpha') {
-        gameBoard.gameBoardPositions[clickedIndex] = alphaToken;
-        event.target.innerHTML += alphaToken;
+        gameBoard.gameBoardPositions[clickedIndex] = alphaToken
+        event.target.innerHTML += alphaToken
       } else if (determineTurn(gameBoard) === 'omega') {
-        gameBoard.gameBoardPositions[clickedIndex] = omegaToken;
-        event.target.innerHTML += omegaToken;
+        gameBoard.gameBoardPositions[clickedIndex] = omegaToken
+        event.target.innerHTML += omegaToken
       }
     }
     
     swapTurns();
-    displayWinnerBanner(checkForWins(gameBoard))
+    updatePlayerBanner(gameBoard)
   }
   
   function updatePlayerBanner(gameBoard) {
     for (var i = 0; i < gameBoard.players.length; i++) {
-        if (gameBoard.players[i].isTurn === true) {
+        if (gameBoard.players[i].isTurn === true && checkForWins(gameBoard) === null) {
             playerBanner.innerText = `${gameBoard.players[i].token} - Your Turn!` 
+        } else if (gameBoard.players[i].isTurn === false && checkForWins(gameBoard) !== null ) {
+            playerBanner.innerText = `Congrats ${gameBoard.players[i].token} - You're a Winner!`
+        } else if (checkForDraws(gameBoard)) {
+            playerBanner.innerText = `Oh No, It's a Draw!`
         }
     }
   }
 
-  function displayWinnerBanner(winner) {
-    if (winner !== null) {
-      playerBanner.innerText = `Congratulations ${winner} - You Win!`;
-    } else {
-      updatePlayerBanner(gameBoard)
-    }
-  }
-  
-
-
-// event.target.innerHTML += `<span role="img" aria-label="red-icon" title="red-icon">${gameBoard.players[i].token}</span>`
-
-
-
-// function switchPlayers() {
-
-// }
 
 
 // DOM
