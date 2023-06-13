@@ -9,7 +9,7 @@ var rightWinCount = document.querySelector('.right')
 var currentPlayers;
 var gameBoard = {
     gameBoardPositions: ['', '', '', '', '', '', '', '', ''],
-    round: 5,
+    round: 6,
     // playerIcons: ['🧞‍♂️', '🧞‍♀️'],
     winningCombos: [
         [0,1,2],
@@ -26,7 +26,7 @@ var gameBoard = {
 
 // event listeners
 document.addEventListener('DOMContentLoaded', function() {
-    setGame()
+    setInitialGame()
     updateBannerDisplay(gameBoard)
     displayPlayerWinCount(gameBoard)
 })
@@ -34,9 +34,20 @@ document.addEventListener('DOMContentLoaded', function() {
 nineBoxes.forEach(function(box) {
     box.addEventListener('click', function(event) {
     placeToken(event);
-    handleWin(checkForWins(gameBoard))
-    });
-});
+    if (checkForWins(gameBoard) === null) {
+        if (checkForDraws(gameBoard)) {
+            setTimeout(() => {
+                resetBoard(nineBoxes);
+            }, 5000);
+        }
+    } else if (checkForWins(gameBoard) !== null) {  
+        handleWin(checkForWins(gameBoard))
+        setTimeout(() => {
+            resetBoard(nineBoxes);
+        }, 5000);
+    }
+})
+})
 
 // data model
 
@@ -55,7 +66,7 @@ function addPlayersToGameboard() {
     return gameBoard
 }
 
-function setGame() {
+function setInitialGame() {
     gameBoard = addPlayersToGameboard()
     var firstPlayer = determineFirstTurn(gameBoard)
     if (firstPlayer === 'alpha') {
@@ -151,13 +162,19 @@ function increaseWinCount(winner) {
 }
 }
 
+function clearGameBoardPositions(gameBoard) {
+    for ( var i = 0; i < gameBoard.gameBoardPositions.length; i++) {
+        gameBoard.gameBoardPositions[i] = ''
+    }
+    gameBoard.round++
+}
+
 
 //-------------- DOM FUNCTIONS -----------------//
   
   function placeToken(event) {
     var alphaToken = gameBoard.players[0].token
     var omegaToken = gameBoard.players[1].token
-    console.log(event.target)
   
     var clickedIndex = Array.from(nineBoxes).indexOf(event.target)
     
@@ -201,13 +218,22 @@ function displayPlayerWinCount (gameBoard) {
     rightWinCount.innerText = `Wins ${gameBoard.players[1].wins}`
 }
 
-function handleWin(func) {
+function handleWin(token) {
+    
     for (var i = 0; i < gameBoard.players.length; i++) {
-        if (func === gameBoard.players[i].token) {
+        if (token === gameBoard.players[i].token) {
             increaseWinCount(gameBoard.players[i].token)
             displayPlayerWinCount(gameBoard)
         }
     }
+}
+
+function resetBoard(nineBoxes) {
+    for ( var i = 0; i < nineBoxes.length; i++) {
+        nineBoxes[i].innerText = ''
+    }
+    clearGameBoardPositions(gameBoard)
+    updateBannerDisplay(gameBoard)
 }
 
 // DOM
