@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 nineBoxes.forEach(function(box) {
     box.addEventListener('click', function(event) {
-    placeToken(event)
+    validateGameBoardPosition(event)
     if (checkForWins(gameBoard) === null) {
         if (checkForDraws(gameBoard)) {
             setTimeout(() => {
@@ -228,4 +228,11 @@ function resetBoard(nineBoxes) {
     updateBannerDisplay(gameBoard)
 }
 
+function validateGameBoardPosition(event) {
+    if (event.target.innerText === '') {
+        placeToken(event)
+    } else {
+        return
+    }
+}
         
