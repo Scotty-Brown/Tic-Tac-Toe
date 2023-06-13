@@ -46,7 +46,7 @@ section {
     box-shadow: inset 0px 0px 20px 17px rgba(207, 149, 43, 0.848)
 }
 
-.middle-div {
+.game-board-display {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -67,7 +67,7 @@ section {
     border-radius: 15px;
 }
 
-.side-div {
+.player-info {
     width: 15%;
     display: flex;
     flex-direction: column;
@@ -75,7 +75,9 @@ section {
     background: rgb(238, 212, 180);
 }
 
-h1 {
+h1,
+h2,
+h3 {
     padding: 36px;
     font-size: 35px;
     background-color: #ffe559;
@@ -91,7 +93,7 @@ img {
     width: 50px
 }
 
-.count,
+.count-display,
 .wins {
     height: 74%;
     opacity: 60%;
@@ -110,31 +112,31 @@ img {
     font-size: 40px;
 }
 
-.rightt {
+.right-player {
     background: linear-gradient(#e66465, #23adba);
 
 }
 
-.leftt {
+.left-player {
     background: linear-gradient(#e66465, #23adba);
 
 }
 
-.left,
-.right {
+.left-count-display,
+.right-count-display {
     display: flex;
     justify-content: center;
     font-size: 100px;
     font-family: cursive;
+    background: rgb(238, 212, 180);
 }
 
-.right {
-    background: rgb(238, 212, 180);
+.right-count-display {
     box-shadow: inset 0px 0px 20px 20px #d32559;
 }
 
-.left {
-    background: rgb(238, 212, 180);
+.left-count-display {
+    /* background: rgb(238, 212, 180); */
     box-shadow: inset 0px 0px 20px 20px #23adba;
 }
 
