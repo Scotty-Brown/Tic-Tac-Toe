@@ -6,11 +6,10 @@ var rightWinCount = document.querySelector('.right')
 
 // global variables
 
-var currentPlayers;
+var currentPlayers
 var gameBoard = {
     gameBoardPositions: ['', '', '', '', '', '', '', '', ''],
-    round: 6,
-    // playerIcons: ['🧞‍♂️', '🧞‍♀️'],
+    round: 1,
     winningCombos: [
         [0,1,2],
         [3,4,5],
@@ -22,7 +21,6 @@ var gameBoard = {
         [2,4,6],
     ]
 }
-// have choose their own icon
 
 // event listeners
 document.addEventListener('DOMContentLoaded', function() {
@@ -33,18 +31,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
 nineBoxes.forEach(function(box) {
     box.addEventListener('click', function(event) {
-    placeToken(event);
+    placeToken(event)
     if (checkForWins(gameBoard) === null) {
         if (checkForDraws(gameBoard)) {
             setTimeout(() => {
-                resetBoard(nineBoxes);
-            }, 5000);
+                resetBoard(nineBoxes)
+            }, 5000)
         }
     } else if (checkForWins(gameBoard) !== null) {  
         handleWin(checkForWins(gameBoard))
         setTimeout(() => {
-            resetBoard(nineBoxes);
-        }, 5000);
+            resetBoard(nineBoxes)
+        }, 5000)
     }
 })
 })
@@ -78,11 +76,6 @@ function setInitialGame() {
     }
 }
 
-// function updatePlayerPositions(gameBoard) {
-//     nineBoxes.forEach(function(box) {
-//         gameBoard.positions = event.target
-//         });
-//     }
 
 function determineFirstTurn(gameBoard) {
     if (gameBoard.round % 2 === 0) {
@@ -153,12 +146,10 @@ function checkForDraws(gameBoard) {
 
 
 function increaseWinCount(winner) {
-    // if (checkForWins(gameBoard) !== null) {
     for (var i = 0; i < gameBoard.players.length; i++) {
         if (gameBoard.players[i].token === winner) {
             gameBoard.players[i].wins++
         }
-    // }
 }
 }
 
@@ -196,7 +187,7 @@ function clearGameBoardPositions(gameBoard) {
       }
     }
     
-    swapTurns();
+    swapTurns()
     updateBannerDisplay(gameBoard)
   }
   
@@ -236,21 +227,4 @@ function resetBoard(nineBoxes) {
     updateBannerDisplay(gameBoard)
 }
 
-// DOM
-
-
-// for whos turn function -
-    // logic can detect odd or even number and that coincides with each players turn and then when its re initiated it adds one to turn and redoes process it could also take which turn it is by using it as an argument in the function and then just calling the same function to restart game
-
-//pseudocode
-    // i have two players and a gameboard
-    // when the page loads it should be a random players turn
-    // each click should switch players
-        // a function that creates object that stores each players info
-        // a function that increaseWins - increase the count of current players wins
-        // a function that keeps track of the data for the game board
-        // a function that keeps track of which plays turn it currently is
-        // a function that checks the game board data for win conditions
-        // a function that detects when a game is a draw
-        // a function that resets the game boards data to begin a new game
         
