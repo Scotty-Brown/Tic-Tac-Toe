@@ -76,7 +76,6 @@ function setInitialGame() {
   }
 }
 
-
 function determineFirstTurn() {
   if (gameBoard.round % 2 === 0) {
     gameBoard.players[0].isTurn = true
@@ -138,7 +137,6 @@ function checkForDraws() {
   }
   return false
 }
-
 
 function increaseWinCount(winner) {
   for (var i = 0; i < gameBoard.players.length; i++) {
