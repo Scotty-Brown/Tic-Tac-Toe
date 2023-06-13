@@ -1,10 +1,10 @@
-// query selectors
+// -------------- Query Selectors --------------//
 var nineBoxes = document.querySelectorAll('.box')
 var playerBanner = document.querySelector('.player-banner')
 var leftWinCount = document.querySelector('.left-count-display')
 var rightWinCount = document.querySelector('.right-count-display')
 
-// global variables
+// -------------- Global Variables --------------//
 
 var currentWinner = ''
 var gameBoard = {
@@ -22,23 +22,24 @@ var gameBoard = {
   ]
 }
 
-// event listeners
+// -------------- Event Listeners --------------//
+
 document.addEventListener('DOMContentLoaded', function () {
   setInitialGame()
-  updateBannerDisplay(gameBoard)
-  displayPlayerWinCount(gameBoard)
+  updateBannerDisplay()
+  displayPlayerWinCount()
 })
 
 nineBoxes.forEach(function (box) {
   box.addEventListener('click', function (event) {
     if (currentWinner === '') {
       validateGameBoardPosition(event)
-      if (checkForWins(gameBoard) === null && checkForDraws(gameBoard)) {
+      if (checkForWins() === null && checkForDraws()) {
         setTimeout(() => {
           resetBoard(nineBoxes)
         }, 5000)
-      } else if (checkForWins(gameBoard) !== null) {
-        handleWin(checkForWins(gameBoard))
+      } else if (checkForWins() !== null) {
+        handleWin(checkForWins())
         setTimeout(() => {
           resetBoard(nineBoxes)
         }, 5000)
@@ -47,7 +48,7 @@ nineBoxes.forEach(function (box) {
   })
 })
 
-// data model
+// -------------- Functions --------------//
 
 function createPlayers(id, token) {
   return {
@@ -60,13 +61,12 @@ function createPlayers(id, token) {
 
 function addPlayersToGameboard() {
   gameBoard.players = [createPlayers('alpha', '🧞‍♂️'), createPlayers('omega', '🧞‍♀️')]
-  // gameBoard.players.push(createPlayers('alpha', '🧞‍♂️'), createPlayers('omega', '🧞‍♀️'))
   return gameBoard
 }
 
 function setInitialGame() {
   gameBoard = addPlayersToGameboard()
-  var firstPlayer = determineFirstTurn(gameBoard)
+  var firstPlayer = determineFirstTurn()
   if (firstPlayer === 'alpha') {
     gameBoard.players[0].isTurn = true
     gameBoard.players[1].isTurn = false
@@ -76,8 +76,7 @@ function setInitialGame() {
   }
 }
 
-
-function determineFirstTurn(gameBoard) {
+function determineFirstTurn() {
   if (gameBoard.round % 2 === 0) {
     gameBoard.players[0].isTurn = true
     gameBoard.players[1].isTurn = false
@@ -89,7 +88,7 @@ function determineFirstTurn(gameBoard) {
   }
 }
 
-function determineTurn(gameBoard) {
+function determineTurn() {
   for (var i = 0; i < gameBoard.players.length; i++) {
     if (gameBoard.players[i].isTurn === true) {
       return gameBoard.players[i].id
@@ -100,27 +99,18 @@ function determineTurn(gameBoard) {
 function swapTurns() {
   for (var i = 0; i < gameBoard.players.length; i++) {
     gameBoard.players[i].isTurn = !gameBoard.players[i].isTurn
-
-    // if (gameBoard.players[i].isTurn === true) {
-    //     gameBoard.players[i].isTurn = false
-    // } else if (gameBoard.players[i].isTurn === false) {
-    //     gameBoard.players[i].isTurn = true
-    // }
   }
 }
 
-
-function checkForWins(gameBoard) {
+function checkForWins() {
   var winningCombos = gameBoard.winningCombos
   var gameBoardPositions = gameBoard.gameBoardPositions
 
   for (var i = 0; i < winningCombos.length; i++) {
     var combo = winningCombos[i]
-
     var position1 = combo[0]
     var position2 = combo[1]
     var position3 = combo[2]
-
     var token1 = gameBoardPositions[position1]
     var token2 = gameBoardPositions[position2]
     var token3 = gameBoardPositions[position3]
@@ -133,22 +123,20 @@ function checkForWins(gameBoard) {
   return null
 }
 
+function checkForDraws() {
+  var gbPositionsClone = []
 
-// need to fix if a win happens on the last gameboard click//
-function checkForDraws(gameBoard) {
-  var gbPositionsClone = ['']
   for (var i = 0; i < gameBoard.gameBoardPositions.length; i++) {
     if (gameBoard.gameBoardPositions[i] !== '') {
       gbPositionsClone.push(gameBoard.gameBoardPositions[i].token)
     }
   }
-  if (gbPositionsClone.length === 10 && checkForWins(gameBoard) === null) {
+  if (gbPositionsClone.length === 9 && checkForWins() === null) {
     currentWinner = 'draw'
     return true
   }
   return false
 }
-
 
 function increaseWinCount(winner) {
   for (var i = 0; i < gameBoard.players.length; i++) {
@@ -158,58 +146,52 @@ function increaseWinCount(winner) {
   }
 }
 
-function clearGameBoardPositions(gameBoard) {
+function clearGameBoardPositions() {
   for (var i = 0; i < gameBoard.gameBoardPositions.length; i++) {
     gameBoard.gameBoardPositions[i] = ''
   }
   gameBoard.round++
 }
 
-
-//-------------- DOM FUNCTIONS -----------------//
-
 function placeToken(event) {
   var alphaToken = gameBoard.players[0].token
   var omegaToken = gameBoard.players[1].token
-
   var clickedIndex = Array.from(nineBoxes).indexOf(event.target)
 
   if (gameBoard.gameBoardPositions.every(position => position === '')) {
-    if (determineFirstTurn(gameBoard) === 'alpha') {
+    if (determineFirstTurn() === 'alpha') {
       gameBoard.gameBoardPositions[clickedIndex] = alphaToken
       event.target.innerHTML += alphaToken
-    } else if (determineFirstTurn(gameBoard) === 'omega') {
+    } else if (determineFirstTurn() === 'omega') {
       gameBoard.gameBoardPositions[clickedIndex] = omegaToken
       event.target.innerHTML += omegaToken
     }
   } else {
-    if (determineTurn(gameBoard) === 'alpha') {
+    if (determineTurn() === 'alpha') {
       gameBoard.gameBoardPositions[clickedIndex] = alphaToken
       event.target.innerHTML += alphaToken
-    } else if (determineTurn(gameBoard) === 'omega') {
+    } else if (determineTurn() === 'omega') {
       gameBoard.gameBoardPositions[clickedIndex] = omegaToken
       event.target.innerHTML += omegaToken
     }
   }
-
   swapTurns()
-  updateBannerDisplay(gameBoard)
+  updateBannerDisplay()
 }
 
-function updateBannerDisplay(gameBoard) {
+function updateBannerDisplay() {
   for (var i = 0; i < gameBoard.players.length; i++) {
-    if (checkForDraws(gameBoard)) {
+    if (checkForDraws()) {
       playerBanner.innerText = `Oh No, It's a Draw!`
-    } else if (gameBoard.players[i].isTurn === false && checkForWins(gameBoard) !== null) {
+    } else if (gameBoard.players[i].isTurn === false && checkForWins() !== null) {
       playerBanner.innerText = `Congrats ${gameBoard.players[i].token} - You're a Winner!`
-    } else if (gameBoard.players[i].isTurn === true && checkForWins(gameBoard) === null) {
+    } else if (gameBoard.players[i].isTurn === true && checkForWins() === null) {
       playerBanner.innerText = `${gameBoard.players[i].token} - Your Turn!`
     }
   }
 }
 
-
-function displayPlayerWinCount(gameBoard) {
+function displayPlayerWinCount() {
   leftWinCount.innerText = `${gameBoard.players[0].wins}`
   rightWinCount.innerText = `${gameBoard.players[1].wins}`
 }
@@ -219,7 +201,7 @@ function handleWin(token) {
   for (var i = 0; i < gameBoard.players.length; i++) {
     if (token === gameBoard.players[i].token) {
       increaseWinCount(gameBoard.players[i].token)
-      displayPlayerWinCount(gameBoard)
+      displayPlayerWinCount()
     }
   }
 }
@@ -229,8 +211,8 @@ function resetBoard(nineBoxes) {
     nineBoxes[i].innerText = ''
   }
   currentWinner = ''
-  clearGameBoardPositions(gameBoard)
-  updateBannerDisplay(gameBoard)
+  clearGameBoardPositions()
+  updateBannerDisplay()
 }
 
 function validateGameBoardPosition(event) {
